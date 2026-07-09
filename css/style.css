@@ -37,6 +37,9 @@
   --radius: 10px;
   --radius-sm: 6px;
 
+  /* Header height (used by mobile nav panel) */
+  --header-h: 68px;
+
   /* Motion */
   --ease: cubic-bezier(.16,.84,.32,1);
   --dur: .5s;
@@ -430,7 +433,10 @@ html[data-theme="dark"] .contact-info-card{ background: var(--surface); border:1
 .field label{ display:block; font-family: var(--font-mono); font-size:.75rem; letter-spacing:.06em; text-transform:uppercase; color: var(--text-muted); margin-bottom:8px; }
 .field input, .field textarea, .field select{
   width:100%; padding: 13px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border);
-  background: var(--bg); color: var(--text); font-size:.96rem; transition: border-color .25s, box-shadow .25s;
+  background: var(--bg); color: var(--text);
+  /* FIX #2: was .96rem (15.36px) — under 16px triggers unwanted auto-zoom on iOS Safari when a field is focused */
+  font-size:16px;
+  transition: border-color .25s, box-shadow .25s;
 }
 .field input:focus, .field textarea:focus, .field select:focus{
   border-color: var(--accent); box-shadow: 0 0 0 3px rgba(225,64,31,.15); outline:none;
@@ -541,12 +547,26 @@ html[data-theme="dark"] .contact-info-card{ background: var(--surface); border:1
   .stat-grid{ grid-template-columns: repeat(3,1fr); }
 
   .mobile-panel{
-    position:fixed; inset: 68px 0 0 0; background: var(--bg); z-index:400;
+    position:fixed;
+    /* FIX #3: derive top offset from a variable instead of a hardcoded 68px,
+       so the panel still lines up if the header's real height ever changes */
+    inset: var(--header-h) 0 0 0;
+    background: var(--bg); z-index:400;
     transform: translateY(-110%); transition: transform .35s var(--ease);
     padding: 30px var(--gutter); overflow-y:auto;
   }
   .mobile-panel.is-open{ transform: translateY(0); }
-  .mobile-panel .nav-links{ flex-direction:column; align-items:flex-start; gap:22px; font-size:1.1rem; }
+
+  /* FIX #1: .nav-links{ display:none } (above) still wins on `display` here
+     because this rule never set it — links opened the panel but stayed
+     invisible. Explicitly restore display:flex on the mobile copy. */
+  .mobile-panel .nav-links{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:22px;
+    font-size:1.1rem;
+  }
   .mobile-panel .btn{ margin-top: 20px; }
 }
 @media (max-width: 640px){
@@ -560,4 +580,11 @@ html[data-theme="dark"] .contact-info-card{ background: var(--surface); border:1
   .form-row{ grid-template-columns: 1fr; }
   .value-grid{ grid-template-columns: 1fr; }
   .hero{ padding: 60px 0 40px; }
+}
+
+/* FIX #4: team grid was stuck at 2 columns all the way down to phone width,
+   which gets cramped (~165px per card incl. photo, name, role, social icons)
+   on narrow devices like an iPhone SE (375px). Drop to 1 column below 480px. */
+@media (max-width: 480px){
+  .team-grid{ grid-template-columns: 1fr; }
 }
