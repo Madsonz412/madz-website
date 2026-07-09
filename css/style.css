@@ -145,6 +145,21 @@ h3, .h3{ font-size: clamp(1.3rem, 2.6vw, 1.8rem); }
 html[data-theme="dark"] .brand .mark{ background: var(--signal-yellow); color: var(--ink); }
 .brand .full{ color: var(--text); }
 .brand .full em{ font-style: normal; color: var(--accent); }
+.brand .brand-text{
+  display:flex;
+  flex-direction:column;
+  line-height:1.15;
+}
+.brand .company-name{
+  font-family: var(--font-body);
+  font-size:.62rem;
+  font-weight:500;
+  letter-spacing:.02em;
+  text-transform:none;
+  color: var(--text-muted);
+  margin-top:2px;
+}
+html[data-theme="dark"] .brand .company-name{ color: var(--slate); }
 
 .nav-links{ display:flex; align-items:center; gap: 34px; }
 .nav-links a{
