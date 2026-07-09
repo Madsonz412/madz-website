@@ -526,6 +526,11 @@ html[data-theme="dark"] .contact-info-card{ background: var(--surface); border:1
   border:1px solid var(--border); padding:6px 12px; border-radius:999px; color: var(--text-muted);
 }
 
+/* Mobile nav dropdown panel: hidden by default on all screen sizes.
+   It is only switched back on inside the max-width:860px media query below,
+   where it becomes a fixed, off-canvas panel toggled by the hamburger button. */
+.mobile-panel{ display:none; }
+
 /* --------------------------------------------------------------------------
    18. RESPONSIVE
    -------------------------------------------------------------------------- */
@@ -547,6 +552,7 @@ html[data-theme="dark"] .contact-info-card{ background: var(--surface); border:1
   .stat-grid{ grid-template-columns: repeat(3,1fr); }
 
   .mobile-panel{
+    display:block;
     position:fixed;
     /* FIX #3: derive top offset from a variable instead of a hardcoded 68px,
        so the panel still lines up if the header's real height ever changes */
@@ -587,10 +593,4 @@ html[data-theme="dark"] .contact-info-card{ background: var(--surface); border:1
    on narrow devices like an iPhone SE (375px). Drop to 1 column below 480px. */
 @media (max-width: 480px){
   .team-grid{ grid-template-columns: 1fr; }
-}
-/* ==========================================================
-   Hide Scrolling Ticker on All Pages
-   ========================================================== */
-.ticker {
-    display: none !important;
 }
