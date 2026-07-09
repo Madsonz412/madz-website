@@ -588,3 +588,9 @@ html[data-theme="dark"] .contact-info-card{ background: var(--surface); border:1
 @media (max-width: 480px){
   .team-grid{ grid-template-columns: 1fr; }
 }
+/* ==========================================================
+   Hide Scrolling Ticker on All Pages
+   ========================================================== */
+.ticker {
+    display: none !important;
+}
